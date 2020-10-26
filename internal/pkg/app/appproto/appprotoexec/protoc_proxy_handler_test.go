@@ -29,3 +29,8 @@ func TestGetFeatureProto3OptionalForVersionString(t *testing.T) {
 	assert.False(t, getFeatureProto3OptionalForVersionString("libprotoc 2.11.4"))
 	assert.False(t, getFeatureProto3OptionalForVersionString("protoc 3.12.3"))
 }
+
+func TestGetOutString(t *testing.T) {
+	assert.Equal(t, "parameter:foo", getOutString("foo", "parameter"))
+	assert.Equal(t, "foo", getOutString("foo", ""))
+}

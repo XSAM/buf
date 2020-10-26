@@ -90,13 +90,7 @@ func (h *protocProxyHandler) Handle(
 	}()
 	args := []string{
 		fmt.Sprintf("--descriptor_set_in=%s", app.DevStdinFilePath),
-		fmt.Sprintf("--%s_out=%s", h.pluginName, tmpDir.AbsPath()),
-	}
-	if parameter := request.GetParameter(); parameter != "" {
-		args = append(
-			args,
-			fmt.Sprintf("--%s_opt=%s", h.pluginName, parameter),
-		)
+		fmt.Sprintf("--%s_out=%s", h.pluginName, getOutString(tmpDir.AbsPath(), request.GetParameter())),
 	}
 	args = append(
 		args,
@@ -186,4 +180,12 @@ func getFeatureProto3OptionalForVersionString(value string) bool {
 		return false
 	}
 	return minor > 11
+}
+
+func getOutString(path, parameter string) string {
+	if parameter != "" {
+		return fmt.Sprintf("%s:%s", parameter, path)
+	} else {
+		return path
+	}
 }
